@@ -95,7 +95,7 @@
   ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
   (corfu-scroll-margin 5)        ;; Use scroll margin
 	(corfu-auto-delay 0)
-	(corfu-auto-prefix 0)	
+	(corfu-auto-prefix 1)	
   (completion-styles '(basic))
   ;; (completion-styles '(orderless-fast))
 	(corfu-min-width 80)
@@ -535,8 +535,12 @@
 	(add-to-list 'projectile-globally-ignored-directories "backup")
 	(add-to-list 'projectile-globally-ignored-directories "*simv.daidir")
 	(add-to-list 'projectile-globally-ignored-directories "simv.daidir")
+	(add-to-list 'projectile-globally-ignored-directories "*.daidir")
+	(add-to-list 'projectile-globally-ignored-directories ".daidir")
 	(add-to-list 'projectile-globally-ignored-directories "*DVEfiles")
 	(add-to-list 'projectile-globally-ignored-directories "DVEfiles")
+	(add-to-list 'projectile-globally-ignored-directories "*run")
+	(add-to-list 'projectile-globally-ignored-directories "run")
 	(add-to-list 'projectile-globally-ignored-files "*icqueue")
 	(add-to-list 'projectile-globally-ignored-files "icqueue")
 	(add-to-list 'projectile-globally-ignored-files "*#")
@@ -544,7 +548,10 @@
 	;; (add-to-list 'projectile-globally-ignored-files "*#*")	 // Don't use
 	;; (add-to-list 'projectile-globally-ignored-files "*.#*") // Don't use
 	(add-to-list 'projectile-globally-ignored-files "*~")
+	(add-to-list 'projectile-globally-ignored-files "*TAGS")
+	(add-to-list 'projectile-globally-ignored-files "TAGS")
 )
+
 
 ;; ----------------------------------------
 ;; Magit
@@ -970,7 +977,7 @@
           (add-to-list 'projectile-globally-ignored-directories item))
         ;; '(""))
         ;; '("DVEfiles" "Backup" "backup" "#*#" ".#*" "*~" ))
-        '("DVEfiles"))
+        '("DVEfiles" "TAGS"))
   ;; files to be ignored should be listed in "~/.emacs.d/rg_ignore"
 
   ;; Use the faster searcher to handle project files: ripgrep "rg"
