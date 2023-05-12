@@ -541,6 +541,8 @@
 	(add-to-list 'projectile-globally-ignored-directories "DVEfiles")
 	(add-to-list 'projectile-globally-ignored-directories "*run")
 	(add-to-list 'projectile-globally-ignored-directories "run")
+	;; Working projectile-globally-ignored-files if `native mode, 230512 verified
+	;; Via C-u C-c p s r command
 	(add-to-list 'projectile-globally-ignored-files "*icqueue")
 	(add-to-list 'projectile-globally-ignored-files "icqueue")
 	(add-to-list 'projectile-globally-ignored-files "*#")
@@ -550,6 +552,8 @@
 	(add-to-list 'projectile-globally-ignored-files "*~")
 	(add-to-list 'projectile-globally-ignored-files "*TAGS")
 	(add-to-list 'projectile-globally-ignored-files "TAGS")
+	(add-to-list 'projectile-globally-ignored-files "*.ucli")
+	(add-to-list 'projectile-globally-ignored-files ".ucli")
 )
 
 

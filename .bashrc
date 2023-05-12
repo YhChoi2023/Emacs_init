@@ -24,7 +24,7 @@ fi
 # | TERM     | Login terminal                   |
 
 echo "Starting ~/.bashrc"
-
+cd /data/
 
 export VCS_HOME="/cad/synopsys/vcs/R-2020.12-SP2-9"
 export LM_LICENSE_FILE="27020@192.168.1.203"
