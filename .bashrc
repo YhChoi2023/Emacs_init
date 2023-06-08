@@ -27,7 +27,8 @@ echo "Starting ~/.bashrc"
 cd /data/
 
 export VCS_HOME="/cad/synopsys/vcs/R-2020.12-SP2-9"
-export LM_LICENSE_FILE="27020@192.168.1.203"
+# export LM_LICENSE_FILE="27020@192.168.1.203"
+export LM_LICENSE_FILE="27020@192.168.4.203" # Change 230530
 export MGLS_LICENSE_FILE=1717@x8086
 export VERILATOR_AUTHOR_SITE=1
 
