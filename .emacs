@@ -1,12 +1,20 @@
 ;; .emacs
 
+;;; Encodings
+;; Contrary to what many Emacs users have in their configs, you don't need more
+;; than this to make UTF-8 the default coding system:
+(set-language-environment "UTF-8")
+
+
+
 (custom-set-variables
- ;; uncomment to always end a file with a newline
-																				;'(require-final-newline t)
- ;; uncomment to disable loading of "default.el" at startup
-																				;'(inhibit-default-init t)
- ;; default to unified diffs
- '(diff-switches "-u"))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(diff-switches "-u")
+ '(package-selected-packages
+	 '(dimmer treemacs-tab-bar eglot rg multiple-cursors all-the-icons fd-dired projectile embark-consult embark marginalia consult neotree doom-modeline zenburn-theme use-package)))
 
 ;;; uncomment for CJK utf-8 support for non-Asian users
 ;; (require 'un-define)
@@ -16,13 +24,23 @@
 ;; - Target OS version: CentOS Linux release 7.9.2009 (Core)
 ;; - Important
 ;; ----------------------------------------
-;; 1. Install rg (linux program)
+;; 0. Install an Emacs
+;; - Reference: https://snapcraft.io/install/emacs/centos
+;; - Step1: sudo yum install epel-release
+;; - Step2: sudo yum install snapd
+;; - Step3: sudo systemctl enable --now snapd.socket
+;; - Step4: sudo ln -s /var/lib/snapd/snap /snap
+;; - Step5: sudo snap install emacs --classic
+;; - Step6: Cechk emacs version using C-u M-x emacs-version command:
+;; -   GNU Emacs 28.2 (build 2, x86_64-pc-linux-gnu, GTK+ Version 3.24.20, cairo version 1.16.0) of 2023-04-03
+
+;; 1. Install a rg (linux program)
 ;; - Reference: https://www.linode.com/docs/guides/ripgrep-linux-installation/
 ;; - Step1: sudo yum install yum-util
 ;; - Step2: sudo yum-config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo
 ;; - Step3: sudo yum install ripgrep
 
-;; 2. Install fd (linux program)
+;; 2. Install a fd (linux program)
 ;; - Reference: https://enting.org/how-to-install-fd-on-centos/
 ;; - Step1: Downlaod fd-v8.7.0-x86_64-unknown-linux-musl.tar.gz form https://github.com/sharkdp/fd/releases?ref=enting.org
 ;; - Step2: untar
@@ -31,19 +49,20 @@
 ;; - Step5: cp ./fd.1 /usr/local/share/man/man1/
 ;; - Step6: mandb
 
-;; 3. Install Iosevka font (linux program)
+;; 3. Install an Iosevka font (linux program)
 ;; - Reference: https://github.com/be5invis/Iosevka
-;; - Download super-ttc-iosevka-24.1.1.zip from https://github.com/be5invis/Iosevka/releases
-;; - Copy to /usr/share/fonts/Iosevka folder
-;; - Unzip using unzip super-ttc-iosevka-24.1.1.zip command
-;; - run 'sudo fc-cache' or 'sudo fc-cache -f -v'
+;; - Step0: Download super-ttc-iosevka-24.1.1.zip from https://github.com/be5invis/Iosevka/releases
+;; - Step1: Copy to /usr/share/fonts/Iosevka folder
+;; - Step2: Unzip using unzip super-ttc-iosevka-24.1.1.zip command
+;; - Step3: run 'sudo fc-cache' or 'sudo fc-cache -f -v'
 
-;; 4. Install use-package: M-x install-package RET use-package
+;; 4. Install a use-package: M-x install-package RET use-package
 ;; 5. Refresh package contents: M-x package-refresh-contents
 ;; 6. Once you start .emacs, do  M-x all-the-icons-install-fonts to use icon fonts.
 ;; 7. Restart Emacs
-;; Font: Office Code Pro
+;; 8. Update dimmer.el code from: https://github.com/gonewest818/dimmer.el/blob/master/dimmer.el
 ;; ----------------------------------------
+;; Font: Office Code Pro
 ;; Language server: Eglot
 ;; File tree: treemacs
 
@@ -149,11 +168,13 @@
 ;; ----------------------------------------
 ;; Ediff
 ;; - to 1. ignore space, 2. split side by side, 3. prevent popup
+;; - https://www.reddit.com/r/emacs/comments/skj37/an_emacs_diff_ediff_tutorial/
 ;; ----------------------------------------
 (custom-set-variables
  '(ediff-diff-options "-w")
  '(ediff-split-window-function (quote split-window-horizontally))
  '(ediff-window-setup-function (quote ediff-setup-windows-plain)))
+
 
 ;; ----------------------------------------
 ;; Comment block with stars
@@ -234,6 +255,62 @@
 (setq verilog-auto-newline nil)
 
 ;; ----------------------------------------
+;; Dashboard
+;; - Emacs frontpage
+;; ----------------------------------------
+(use-package dashboard
+  :ensure t
+  :config
+	;; Set the title
+	(setq dashboard-banner-logo-title "Welcome to Emacs Dashboard")
+	;; Set the banner
+	(setq dashboard-startup-banner 1) ;; 1, 2, 3, nil, `official, path/to/your/image.png or text.txt
+	(setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+	(setq dashboard-items '((recents  . 5)
+  	                      (bookmarks . 5)
+    	                    (projects . 5)
+      	                  (agenda . 5)
+        	                (registers . 5)))
+	(setq dashboard-icon-type 'all-the-icons) ;; use `all-the-icons' package
+	(setq dashboard-set-heading-icons t)
+	(setq dashboard-set-file-icons t)
+	(dashboard-modify-heading-icons '((recents . "file-text") ;; To modify heading icons with another icon from all-the-icons octicons:
+																		(bookmarks . "book")))
+	(setq dashboard-set-navigator t) ;; To show navigator below the banner:
+	;; Format: "(icon title help action face prefix suffix)"
+	(setq dashboard-navigator-buttons
+      `(;; line1
+        ((,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
+         "Homepage"
+         "Browse homepage"
+         (lambda (&rest _) (browse-url "https://github.com/yhchoi2023")))
+        ("★" "Star" "Show stars" (lambda (&rest _) (show-stars)) warning)
+        ("?" "" "?/h" #'show-help nil "<" ">"))
+         ;; line 2
+        ((,(all-the-icons-faicon "linkedin" :height 1.1 :v-adjust 0.0)
+          "Linkedin"
+          ""
+          (lambda (&rest _) (browse-url "Linkedin homepage")))
+         ("⚑" nil "Show flags" (lambda (&rest _) (message "flag")) error))))
+	(setq dashboard-week-agenda t) ;; To show agenda for the upcomming seven days set the variable dashboard-week-agenda to t
+	(setq dashboard-filter-agenda-entry 'dashboard-no-filter-agenda)
+  (dashboard-setup-startup-hook))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;; ----------------------------------------
 ;; Neotree
 ;; - File tree
 ;; ----------------------------------------
@@ -256,6 +333,15 @@
 	:config
 	(global-set-key (kbd "C-x o") 'ace-window)
 	)
+
+;; ----------------------------------------
+;; Dimmer
+;; ----------------------------------------
+(use-package dimmer
+	:ensure t
+  :config
+  (dimmer-mode t)
+  (setq dimmer-fraction 0.5))(require 'dimmer)
 
 ;; ----------------------------------------
 ;; Corfu: Auto completion
@@ -809,14 +895,7 @@
 	:config
 	(load-theme 'zenburn t))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(diff-switches "-u")
- '(package-selected-packages
-	 '(treemacs-tab-bar eglot rg multiple-cursors all-the-icons fd-dired projectile embark-consult embark marginalia consult neotree doom-modeline zenburn-theme use-package)))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
