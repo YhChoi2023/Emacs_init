@@ -1,21 +1,5 @@
 ;; .emacs
 
-;;; Encodings
-;; Contrary to what many Emacs users have in their configs, you don't need more
-;; than this to make UTF-8 the default coding system:
-(set-language-environment "UTF-8")
-
-
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(diff-switches "-u")
- '(package-selected-packages
-	 '(dimmer treemacs-tab-bar eglot rg multiple-cursors all-the-icons fd-dired projectile embark-consult embark marginalia consult neotree doom-modeline zenburn-theme use-package)))
-
 ;;; uncomment for CJK utf-8 support for non-Asian users
 ;; (require 'un-define)
 
@@ -67,6 +51,24 @@
 ;; File tree: treemacs
 
 
+;;; Encodings
+;; Contrary to what many Emacs users have in their configs, you don't need more
+;; than this to make UTF-8 the default coding system:
+(set-language-environment "UTF-8")
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves/\\1" t)))
+ '(backup-directory-alist '((".*" . "~/.emacs.d/backups/")))
+ '(diff-switches "-u")
+ '(ediff-diff-options "-w")
+ '(ediff-split-window-function 'split-window-horizontally)
+ '(ediff-window-setup-function 'ediff-setup-windows-plain)
+ '(package-selected-packages
+	 '(dumb-jump aggressive-indent indent-guide highlight-indentation literate-calc-mode dimmer treemacs-tab-bar eglot rg multiple-cursors all-the-icons fd-dired projectile embark-consult embark marginalia consult neotree doom-modeline zenburn-theme use-package)))
 
 ;; ----------------------------------------
 ;; Global package install
@@ -130,6 +132,13 @@
 (add-to-list 'default-frame-alist '(width . 279))
 
 ;; ----------------------------------------
+;; User interface
+;; ----------------------------------------
+;; (scroll-bar-mode 0)
+;; (menu-bar-mode 0)
+(tool-bar-mode 0)
+
+;; ----------------------------------------
 ;; verilog-mode indent is the same with notepad++ or VScode
 ;; ----------------------------------------
 																				; ;; Enable syntax highlighting of **all** languages
@@ -158,9 +167,7 @@
 ;; https://snarfed.org/gnu_emacs_backup_files
 ;; ----------------------------------------
 ;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
-(custom-set-variables
- '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves/\\1" t)))
- '(backup-directory-alist '((".*" . "~/.emacs.d/backups/"))))
+
 
 ;; create the autosave dir if necessary, since emacs won't.
 (make-directory "~/.emacs.d/autosaves/" t)
@@ -170,10 +177,7 @@
 ;; - to 1. ignore space, 2. split side by side, 3. prevent popup
 ;; - https://www.reddit.com/r/emacs/comments/skj37/an_emacs_diff_ediff_tutorial/
 ;; ----------------------------------------
-(custom-set-variables
- '(ediff-diff-options "-w")
- '(ediff-split-window-function (quote split-window-horizontally))
- '(ediff-window-setup-function (quote ediff-setup-windows-plain)))
+
 
 
 ;; ----------------------------------------
@@ -186,7 +190,7 @@
 ;; ----------------------------------------
 ;; Set tab key enable
 ;; ----------------------------------------
-(global-set-key (kbd "TAB") 'self-insert-command);
+(global-set-key (kbd "TAB") 'self-insert-command)
 (setq-default tab-width 2)
 
 ;; ----------------------------------------
@@ -259,18 +263,18 @@
 ;; - Emacs frontpage
 ;; ----------------------------------------
 (use-package dashboard
-  :ensure t
-  :config
+	:ensure t
+	:config
 	;; Set the title
 	(setq dashboard-banner-logo-title "Welcome to Emacs Dashboard")
 	;; Set the banner
 	(setq dashboard-startup-banner 1) ;; 1, 2, 3, nil, `official, path/to/your/image.png or text.txt
 	(setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
 	(setq dashboard-items '((recents  . 5)
-  	                      (bookmarks . 5)
-    	                    (projects . 5)
-      	                  (agenda . 5)
-        	                (registers . 5)))
+													(bookmarks . 5)
+													(projects . 5)
+													(agenda . 5)
+													(registers . 5)))
 	(setq dashboard-icon-type 'all-the-icons) ;; use `all-the-icons' package
 	(setq dashboard-set-heading-icons t)
 	(setq dashboard-set-file-icons t)
@@ -279,36 +283,22 @@
 	(setq dashboard-set-navigator t) ;; To show navigator below the banner:
 	;; Format: "(icon title help action face prefix suffix)"
 	(setq dashboard-navigator-buttons
-      `(;; line1
-        ((,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
-         "Homepage"
-         "Browse homepage"
-         (lambda (&rest _) (browse-url "https://github.com/yhchoi2023")))
-        ("★" "Star" "Show stars" (lambda (&rest _) (show-stars)) warning)
-        ("?" "" "?/h" #'show-help nil "<" ">"))
-         ;; line 2
-        ((,(all-the-icons-faicon "linkedin" :height 1.1 :v-adjust 0.0)
-          "Linkedin"
-          ""
-          (lambda (&rest _) (browse-url "Linkedin homepage")))
-         ("⚑" nil "Show flags" (lambda (&rest _) (message "flag")) error))))
+				`(;; line1
+					((,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
+						"Homepage"
+						"Browse homepage"
+						(lambda (&rest _) (browse-url "https://github.com/yhchoi2023")))
+					 ("★" "Star" "Show stars" (lambda (&rest _) (show-stars)) warning)
+					 ("?" "" "?/h" #'show-help nil "<" ">"))
+					;; line 2
+					((,(all-the-icons-faicon "linkedin" :height 1.1 :v-adjust 0.0)
+						"Linkedin"
+						""
+						(lambda (&rest _) (browse-url "Linkedin homepage")))
+					 ("⚑" nil "Show flags" (lambda (&rest _) (message "flag")) error))))
 	(setq dashboard-week-agenda t) ;; To show agenda for the upcomming seven days set the variable dashboard-week-agenda to t
 	(setq dashboard-filter-agenda-entry 'dashboard-no-filter-agenda)
-  (dashboard-setup-startup-hook))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	(dashboard-setup-startup-hook))
 
 ;; ----------------------------------------
 ;; Neotree
@@ -322,8 +312,7 @@
 	(setq neo-theme 'ascii)
 	(setq neo-smart-open t)
 	;; (setq projectile-switch-project-action 'neotree-projectile-action)
-	(setq neo-window-width 50)
-	)
+	(setq neo-window-width 50))
 
 ;; ----------------------------------------
 ;; Ace window
@@ -331,17 +320,117 @@
 (use-package ace-window
 	:ensure t
 	:config
-	(global-set-key (kbd "C-x o") 'ace-window)
-	)
+	(global-set-key (kbd "C-x o") 'ace-window))
 
 ;; ----------------------------------------
 ;; Dimmer
 ;; ----------------------------------------
 (use-package dimmer
 	:ensure t
+	:config
+	(setq dimmer-fraction 0.5)
+	(dimmer-mode t))
+
+;; ----------------------------------------
+;; Literate Calc Mode
+;; ----------------------------------------
+(use-package literate-calc-mode
+	:ensure t
+	:commands
+	(literate-calc-minor-mode))
+
+;; ----------------------------------------
+;; Indent-guide
+;; ----------------------------------------
+(use-package indent-guide
+	:ensure t
+	:config
+	;; Change the character for guides
+	(setq indent-guide-char "|")
+	(indent-guide-global-mode))
+
+;; ----------------------------------------
+;; Aggressive indent
+;; ----------------------------------------
+(use-package aggressive-indent
+	:ensure t
+	:init
+	;; (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
+	;; (add-hook 'c-mode-hook #'aggressive-indent-mode)
+	;; (add-hook 'c++-mode-hook #'aggressive-indent-mode)
+	;; You can use this hook on any mode you want
+	(global-aggressive-indent-mode 1)
+	:config
+	(add-to-list
+	 'aggressive-indent-dont-indent-if
+	 '(and (derived-mode-p 'c++-mode 'c-mode)
+				 (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
+														 (thing-at-point 'line))))))
+
+;; ----------------------------------------
+;; Multiple-cursors
+;; ----------------------------------------
+(use-package multiple-cursors
+	:ensure t
+	:config
+	(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+	(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+	(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+	(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
+
+;; ----------------------------------------
+;; Smartparens
+;; ----------------------------------------
+(use-package smartparens
+	:ensure t
+	:config
+	(add-hook 'js-mode-hook #'smartparens-mode))
+
+;; ----------------------------------------
+;; Smartparens
+;; ----------------------------------------
+(use-package expand-region
+	:ensure t
+  :bind
+	("C-=" . er/expand-region)
+	("C--" . er/contract-region))
+
+;; ----------------------------------------
+;; YASnippets
+;; Template system. It allows you to type an abbreviation and automatically expand it into function templates.
+;; ----------------------------------------
+(use-package yasnippet
+	:ensure t
+  :bind
+	("C-c y n" . yas-new-snippet)
+  ("C-c y i" . yas-insert-snippet)
+  ("C-c y v" . yas-visit-snippet-file)
+	("M-z" . yas-expand)
   :config
-  (dimmer-mode t)
-  (setq dimmer-fraction 0.5))(require 'dimmer)
+	(setq yas-snippet-dirs
+				'("~/.emacs.d/snippets"                 ;; personal snippets
+					;; "/path/to/some/collection/"           ;; foo-mode and bar-mode snippet collection
+					;; "/path/to/yasnippet/yasmate/snippets" ;; the yasmate collection
+					))
+	(yas-global-mode 1) ;; or M-x yas-reload-all if you've started YASnippet already.
+	)
+(use-package yasnippet-snippets         ; Collection of snippets
+  :ensure t)
+
+;; ----------------------------------------
+;; nyan-mode
+;; ----------------------------------------
+(use-package nyan-mode
+  :init
+  :config
+	(setq nyan-animate-nyancat t)
+	;; (setq nyan-minimum-window-width 80)
+	;; (setq nyan-bar-length 20)
+	(nyan-mode t))
+
+
+
+
 
 ;; ----------------------------------------
 ;; Corfu: Auto completion
@@ -367,7 +456,7 @@
 	(completion-styles '(basic))
 	;; (completion-styles '(orderless-fast))
 	(corfu-min-width 80)
-	(completion-cycle-threshold nil)
+	(completion-cycle-threshold 3)
 
 	:bind
 	;; Configure SPC for separator insertion
@@ -484,9 +573,6 @@
 	:ensure t
 	:init (global-flycheck-mode)
 	)
-
-
-
 
 ;; ----------------------------------------
 ;; Avy: goto desired word in window
@@ -847,6 +933,29 @@
 	:ensure t
 	:bind ("C-x g" . magit))
 
+;; ----------------------------------------
+;; diff-hl
+;; - Highlights uncommitted changes on the left side of the window (=gutter)
+;; ----------------------------------------
+(use-package diff-hl
+  :ensure t
+	:init
+	(global-diff-hl-mode)
+	:hook
+  (magit-pre-refresh . diff-hl-magit-pre-refresh)
+  (magit-post-refresh . diff-hl-magit-post-refresh)
+	:config
+	;; Provides similar functionality in Dired.
+	(add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+  (add-hook 'prog-mode-hook #'diff-hl-mode)
+  (add-hook 'org-mode-hook #'diff-hl-mode)
+	;; Changes the highlighting function to use the margin instead of the fringe.
+	(diff-hl-margin-mode)
+	;; Implements highlighting changes on the fly.
+	(diff-hl-flydiff-mode)
+	;; makes fringe and margin react to mouse clicks to show the curresponding hunk.
+	(diff-hl-show-hunk-mouse-mode)
+	)
 
 ;; ----------------------------------------
 ;; Eglot
@@ -922,7 +1031,7 @@
 	(setq doom-modeline-height 25)
 
 	;; How wide the mode-line bar should be. It's only respected in GUI.
-	(setq doom-modeline-bar-width 4)
+	(setq doom-modeline-bar-width 1)
 
 	;; Whether to use hud instead of default bar. It's only respected in GUI.
 	(setq doom-modeline-hud nil)
@@ -1111,7 +1220,10 @@
 ;; To use icons
 ;; all-the-icons are necessary. Then run M-x all-the-icons-install-fonts to install the resource fonts. On Windows, the fonts should be installed manually.
 (use-package all-the-icons
-	:ensure t)
+	:if (display-graphic-p))
+(use-package all-the-icons-dired
+	:ensure t
+	:hook (dired-mode . all-the-icons-dired-mode))
 
 (use-package multiple-cursors
 	:ensure t)
@@ -1174,7 +1286,7 @@
 ;; --------------------------------------------------------------------------------
 ;; Follwong packages are needded additional program
 ;; - rg (linux program)
-
+;; - Iosevka font
 ;; --------------------------------------------------------------------------------
 ;; ----------------------------------------
 ;; Text searcher
@@ -1190,6 +1302,41 @@
 ;; ----------------------------------------
 (add-to-list 'default-frame-alist
 						 '(font . "iosevka-10"))
+
+;; ----------------------------------------
+;; Dumb-jump
+;; - Jump to definition
+;; - Dumb Jump uses The Silver Searcher ag, ripgrep rg, or grep to find potential definitions of a function or variable under point.
+;; ----------------------------------------
+(use-package dumb-jump
+	:ensure t
+	:init
+	;; prefer sercher order if not defined: ag, rg, grep (first installed wins)
+	(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+	;; Below .emacs option has a bug "‘dumb-jump-go’ is an obsolete command (as of 2020-06-26); ‘dumb-jump-go’ has been obsoleted by the xref interface."
+	;; (setq dumb-jump-prefer-searcher 'rg)
+	(setq dumb-jump-force-searcher 'rg)
+	:bind (("C-M-g j" . dumb-jump-go)
+				 ("C-M-g o" . dumb-jump-go-other-window)
+				 ("C-M-g e" . dumb-jump-go-prefer-external)
+				 ("C-M-g x" . dumb-jump-go-prefer-external-other-window)
+				 ("C-M-g i" . dumb-jump-go-prompt)
+				 ("C-M-g q" . dumb-jump-quick-look)
+				 ("C-M-g b" . dumb-jump-back)))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
