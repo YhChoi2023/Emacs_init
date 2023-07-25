@@ -355,11 +355,11 @@
 (use-package aggressive-indent
 	:ensure t
 	:init
-	;; (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
-	;; (add-hook 'c-mode-hook #'aggressive-indent-mode)
-	;; (add-hook 'c++-mode-hook #'aggressive-indent-mode)
+	(add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
+	(add-hook 'c-mode-hook #'aggressive-indent-mode)
+	(add-hook 'c++-mode-hook #'aggressive-indent-mode)
 	;; You can use this hook on any mode you want
-	(global-aggressive-indent-mode 1)
+	;; (global-aggressive-indent-mode 1)
 	:config
 	(add-to-list
 	 'aggressive-indent-dont-indent-if
@@ -383,17 +383,33 @@
 ;; ----------------------------------------
 (use-package smartparens
 	:ensure t
+	:init
+	(smartparens-global-mode 1)
 	:config
 	(add-hook 'js-mode-hook #'smartparens-mode))
 
 ;; ----------------------------------------
-;; Smartparens
+;; Expand-region
 ;; ----------------------------------------
 (use-package expand-region
 	:ensure t
-  :bind
+	:bind
 	("C-=" . er/expand-region)
 	("C--" . er/contract-region))
+
+;; ----------------------------------------
+;; Undo-tree
+;; - undo-tree-visulize is pure gold
+;; ----------------------------------------
+(use-package undo-tree
+	:ensure t
+	:init	(global-undo-tree-mode)
+	:custom
+	(undo-tree-visualizer-timestamps t)
+	(undo-tree-visualizer-diff t)
+	;; Prevent undo tree files from polluting your git repo
+	(setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+	)
 
 ;; ----------------------------------------
 ;; YASnippets
@@ -401,12 +417,12 @@
 ;; ----------------------------------------
 (use-package yasnippet
 	:ensure t
-  :bind
+	:bind
 	("C-c y n" . yas-new-snippet)
-  ("C-c y i" . yas-insert-snippet)
-  ("C-c y v" . yas-visit-snippet-file)
+	("C-c y i" . yas-insert-snippet)
+	("C-c y v" . yas-visit-snippet-file)
 	("M-z" . yas-expand)
-  :config
+	:config
 	(setq yas-snippet-dirs
 				'("~/.emacs.d/snippets"                 ;; personal snippets
 					;; "/path/to/some/collection/"           ;; foo-mode and bar-mode snippet collection
@@ -415,14 +431,14 @@
 	(yas-global-mode 1) ;; or M-x yas-reload-all if you've started YASnippet already.
 	)
 (use-package yasnippet-snippets         ; Collection of snippets
-  :ensure t)
+	:ensure t)
 
 ;; ----------------------------------------
 ;; nyan-mode
 ;; ----------------------------------------
 (use-package nyan-mode
-  :init
-  :config
+	:init
+	:config
 	(setq nyan-animate-nyancat t)
 	;; (setq nyan-minimum-window-width 80)
 	;; (setq nyan-bar-length 20)
@@ -882,6 +898,7 @@
 ;; ----------------------------------------
 ;; Projectile
 ;; - Projectile officially supports Emacs 25.1+.
+;; - Adding projectes key: M-x projectile-add-known-project
 ;; ----------------------------------------
 (use-package projectile
 	:ensure t
@@ -938,17 +955,17 @@
 ;; - Highlights uncommitted changes on the left side of the window (=gutter)
 ;; ----------------------------------------
 (use-package diff-hl
-  :ensure t
+	:ensure t
 	:init
 	(global-diff-hl-mode)
 	:hook
-  (magit-pre-refresh . diff-hl-magit-pre-refresh)
-  (magit-post-refresh . diff-hl-magit-post-refresh)
+	(magit-pre-refresh . diff-hl-magit-pre-refresh)
+	(magit-post-refresh . diff-hl-magit-post-refresh)
 	:config
 	;; Provides similar functionality in Dired.
 	(add-hook 'dired-mode-hook 'diff-hl-dired-mode)
-  (add-hook 'prog-mode-hook #'diff-hl-mode)
-  (add-hook 'org-mode-hook #'diff-hl-mode)
+	(add-hook 'prog-mode-hook #'diff-hl-mode)
+	(add-hook 'org-mode-hook #'diff-hl-mode)
 	;; Changes the highlighting function to use the margin instead of the fringe.
 	(diff-hl-margin-mode)
 	;; Implements highlighting changes on the fly.
