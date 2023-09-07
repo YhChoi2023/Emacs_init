@@ -1,3 +1,5 @@
+
+
 ;; .emacs
 
 ;;; uncomment for CJK utf-8 support for non-Asian users
@@ -6,6 +8,14 @@
 ;; ----------------------------------------
 ;; Prerequisite (Dependacy)
 ;; - Target OS version: CentOS Linux release 7.9.2009 (Core)
+;; - NAME="CentOS Linux"
+;; - VERSION="7 (Core)"
+;; - ID="centos"
+;; - ID_LIKE="rhel fedora"
+;; - VERSION_ID="7"
+;; - PRETTY_NAME="CentOS Linux 7 (Core)"
+;; - ANSI_COLOR="0;31"
+;; - CPE_NAME="cpe:/o:centos:centos:7"
 ;; - Important
 ;; ----------------------------------------
 ;; 0. Install an Emacs
@@ -67,6 +77,7 @@
  '(ediff-diff-options "-w")
  '(ediff-split-window-function 'split-window-horizontally)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
+ '(org-agenda-files '("/data/test/13_org_mode/test_org_mode.org"))
  '(package-selected-packages
 	 '(dumb-jump aggressive-indent indent-guide highlight-indentation literate-calc-mode dimmer treemacs-tab-bar eglot rg multiple-cursors all-the-icons fd-dired projectile embark-consult embark marginalia consult neotree doom-modeline zenburn-theme use-package)))
 
@@ -100,9 +111,9 @@
 			;; The higher the number, the higher the priority of a package archive.
 			;; Although archives that are not in package-archive-priorities have a default priority of 0, it's all too easy to forget that.
 			package-archive-priorities
-			'(("MELPA Stable" . 10)
+			'(("MELPA Stable" . 0)
 				("GNU ELPA"     . 5)
-				("MELPA"        . 0)))
+				("MELPA"        . 10)))
 (package-initialize)
 
 ;; In order to automatically update the list of packages, only if there is no package list already
@@ -198,6 +209,13 @@
 ;; ----------------------------------------
 (when (version<= "26.0.50" emacs-version )
 	(global-display-line-numbers-mode))
+
+;; ----------------------------------------
+;; org-mode
+;; - Adding the workflow states to evey org-file
+;; ----------------------------------------
+(setq org-todo-keywords
+			'((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
 
 ;; ----------------------------------------
 ;; Emacs Keybindings
@@ -328,7 +346,7 @@
 (use-package dimmer
 	:ensure t
 	:config
-	(setq dimmer-fraction 0.5)
+	(setq dimmer-fraction 0.4)
 	(dimmer-mode t))
 
 ;; ----------------------------------------
@@ -408,7 +426,7 @@
 	(undo-tree-visualizer-timestamps t)
 	(undo-tree-visualizer-diff t)
 	;; Prevent undo tree files from polluting your git repo
-	(setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+	(undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
 	)
 
 ;; ----------------------------------------
@@ -444,7 +462,19 @@
 	;; (setq nyan-bar-length 20)
 	(nyan-mode t))
 
-
+;; ----------------------------------------
+;; pdf-tools
+;; - pdf viewer
+;; ----------------------------------------
+(use-package pdf-tools
+  :ensure t
+	:pin manual ;; don't reinstall when package updates
+	:mode  ("\\.pdf\\'" . pdf-view-mode)
+	:config
+	(setq-default pdf-view-display-size 'fit-page)
+	;; automatically annotate highlights
+	(setq pdf-annot-activate-created-annotations t)
+	(pdf-tools-install))
 
 
 
@@ -1360,8 +1390,18 @@
 
 
 
+;; --------------------------------------------------
+;; ----------------------------------------
+;; Verilog-mode verilog-library-file usage
+;; - verilog-auto-inst, verilog-goto-defun reference path settings
+;; ----------------------------------------
+;; // Local Variables:
+;; // verilog-library-flags:("-f /data/33_arm_nic-400/all_folder_list.txt")
+;; // End:
 
-
+;; File [all_folder_list.txt]
+;; -y /data/33_arm_nic-400/nic400_1/
+;; -y /data/33_arm_nic-400/nic400_1/amib_apb_group0/
 
 
 ;; ----------------------------------------
@@ -1371,3 +1411,17 @@
 ;; :bind ("M-s" . avy-goto-char))
 ;; Above syntax of use-package is the same with following:
 ;; (global-set-key (kbd "C-:") 'avy-goto-char)
+
+
+
+
+;; ----------------------------------------
+;; Linux tips
+;; ----------------------------------------
+;; 1. How to force change linux password even if similar as previous
+;; - sudo passwd <myusername>
+
+
+
+
+
