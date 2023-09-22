@@ -77,6 +77,8 @@
  '(ediff-diff-options "-w")
  '(ediff-split-window-function 'split-window-horizontally)
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
+ '(ignored-local-variable-values
+	 '((verilog-library-flags "-f /data/33_arm_nic-400/all_folder_list.txt")))
  '(org-agenda-files '("/data/test/13_org_mode/test_org_mode.org"))
  '(package-selected-packages
 	 '(dumb-jump aggressive-indent indent-guide highlight-indentation literate-calc-mode dimmer treemacs-tab-bar eglot rg multiple-cursors all-the-icons fd-dired projectile embark-consult embark marginalia consult neotree doom-modeline zenburn-theme use-package)))
@@ -1420,6 +1422,14 @@
 ;; ----------------------------------------
 ;; 1. How to force change linux password even if similar as previous
 ;; - sudo passwd <myusername>
+;; 2. Automatically mount "sshfs"
+;; # Examples
+;; # URL: https://www.tuwlab.com/10463
+;; # URL: https://askubuntu.com/questions/43363/how-to-auto-mount-using-sshfs
+;; yhchoi@192.168.4.210:/ /data/mnt_yhchoi_zc0 fuse.sshfs noauto,x-systemd.automount,_netdev,IdentityFile=/home/yhc/.ssh/id_rsa,allow_other,reconnect 0 0
+;; yhchoi@192.168.4.211:/ /data/mnt_yhchoi_zc1 fuse.sshfs noauto,x-systemd.automount,_netdev,IdentityFile=/home/yhc/.ssh/id_rsa,allow_other,reconnect 0 0
+;; leetj@192.168.4.210:/ /data/mnt_leetj_zc0 fuse.sshfs noauto,x-systemd.automount,_netdev,IdentityFile=/home/yhc/.ssh/id_rsa,allow_other,reconnect 0 0
+
 
 
 
